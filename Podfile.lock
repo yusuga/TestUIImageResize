@@ -1,0 +1,13 @@
+PODS:
+  - NYXImagesKit (2.3)
+  - YSProcessTimer (0.0.9)
+
+DEPENDENCIES:
+  - NYXImagesKit
+  - YSProcessTimer
+
+SPEC CHECKSUMS:
+  NYXImagesKit: bdcd82ed61e55ad95a2e95675c2f6b84f039c423
+  YSProcessTimer: 460c8648e5c5a3dac44d090fd938436d938ab5d7
+
+COCOAPODS: 0.29.0
