@@ -4,7 +4,11 @@ PODS:
 
 DEPENDENCIES:
   - NYXImagesKit
-  - YSProcessTimer
+  - YSProcessTimer (from `https://github.com/yusuga/YSProcessTimer`)
+
+EXTERNAL SOURCES:
+  YSProcessTimer:
+    :git: https://github.com/yusuga/YSProcessTimer
 
 SPEC CHECKSUMS:
   NYXImagesKit: bdcd82ed61e55ad95a2e95675c2f6b84f039c423
