@@ -7,6 +7,8 @@ Benchmark
 ---
 300 trials
 
+Resize 1276x1276px -> 450x450px
+
     [Simulator 32-bit]
         CIImage(GPU) 		0.021970
         CIImage(CPU) 		0.020830
