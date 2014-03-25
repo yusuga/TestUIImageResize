@@ -1,8 +1,10 @@
 PODS:
+  - GPUImage (0.1.3)
   - NYXImagesKit (2.3)
   - YSProcessTimer (0.0.9)
 
 DEPENDENCIES:
+  - GPUImage
   - NYXImagesKit
   - YSProcessTimer (from `https://github.com/yusuga/YSProcessTimer`)
 
@@ -11,6 +13,7 @@ EXTERNAL SOURCES:
     :git: https://github.com/yusuga/YSProcessTimer
 
 SPEC CHECKSUMS:
+  GPUImage: efcc16efc1fc45c8f2fdc50591f3505d100789de
   NYXImagesKit: bdcd82ed61e55ad95a2e95675c2f6b84f039c423
   YSProcessTimer: 460c8648e5c5a3dac44d090fd938436d938ab5d7
 

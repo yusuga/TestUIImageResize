@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import <YSProcessTimer/YSProcessTimer.h>
 #import <NYXImagesKit/NYXImagesKit.h>
+#import <GPUImage/GPUImage.h>
 
 static NSUInteger const kNumberOfTrials = 300;
 
@@ -201,6 +202,41 @@ static NSUInteger const kNumberOfTrials = 300;
     }];
 }
 
+#pragma mark - GPUImage
+
+- (IBAction)GPUImageButtonDidPush:(id)sender
+{
+    [self startProcessTimerWithProcessName:@"set GPUImage" process:^{
+        self.imageView.image = [self resizeImageInGPUImageWithImage:self.image size:self.sizeNormal];
+    }];
+}
+
+- (UIImage*)resizeImageInGPUImageWithImage:(UIImage*)image size:(CGSize)size
+{
+    GPUImagePicture *stillImageSource = [[GPUImagePicture alloc] initWithImage:image];
+    GPUImageFilter *filter = [[GPUImageFilter alloc] init];
+    [filter forceProcessingAtSizeRespectingAspectRatio:size];
+    
+    [stillImageSource addTarget:filter];
+    [filter useNextFrameForImageCapture];
+    [stillImageSource processImage];
+    
+    UIImage *resizedImg = [filter imageFromCurrentFramebuffer];
+    return resizedImg;
+}
+
+- (IBAction)averageTestGPUImage:(id)sender
+{
+    [self averageGPUImage];
+}
+
+- (NSTimeInterval)averageGPUImage
+{
+    return [self startProcessAverageTimerWithProcessName:@"average GPUImage" process:^{
+        [self resizeImageInGPUImageWithImage:self.image size:self.sizeNormal];
+    }];
+}
+
 #pragma mark - background test
 
 - (IBAction)backgroundTestCoreImage:(id)sender
@@ -221,6 +257,13 @@ static NSUInteger const kNumberOfTrials = 300;
 {
     [self backgroundTestWithProcessName:@"background test NYXImagesKit" process:^{
         [self.image scaleToFitSize:self.sizeNormal];
+    }];
+}
+
+- (IBAction)backgroundTestGPUImage:(id)sender
+{
+    [self backgroundTestWithProcessName:@"background test GPUImage" process:^{
+        [self resizeImageInGPUImageWithImage:self.image size:self.sizeNormal];
     }];
 }
 
@@ -259,6 +302,7 @@ static NSUInteger const kNumberOfTrials = 300;
     [self coreGraphicsLowButtonDidPush:nil];
     [self coreGraphicsHighButtonDidPush:nil];
     [self NYXImagesKitButtonDidPush:nil];
+    [self GPUImageButtonDidPush:nil];
     
     UIImage *img = self.image;
     CGSize size = self.sizeNormal;
@@ -268,13 +312,15 @@ static NSUInteger const kNumberOfTrials = 300;
     NSTimeInterval ciImageCPUTime = [self averageCiImageWithImage:img size:size useGPU:NO];
     NSTimeInterval coreGraphicsHighTime = [self averageCoreGraphicsWithImage:img size:size qualityHigh:YES];
     NSTimeInterval NYXImagesKitTime = [self averageNYXImagesKit];
+    NSTimeInterval GPUImageTime = [self averageGPUImage];
 #else
+    NSTimeInterval GPUImageTime = [self averageGPUImage];
     NSTimeInterval NYXImagesKitTime = [self averageNYXImagesKit];
     NSTimeInterval coreGraphicsHighTime = [self averageCoreGraphicsWithImage:img size:size qualityHigh:YES];
     NSTimeInterval ciImageCPUTime = [self averageCiImageWithImage:img size:size useGPU:NO];
     NSTimeInterval ciImageGPUTime = [self averageCiImageWithImage:img size:size useGPU:YES];
 #endif
-    NSLog(@"\nCIImage(GPU) %f\nCIImage(CPU) %f\nCoreGraphics(High) %f\nNYXImagesKit %f", ciImageGPUTime, ciImageCPUTime, coreGraphicsHighTime, NYXImagesKitTime);
+    NSLog(@"\nCoreImage(GPU) %f\nCoreImage(CPU) %f\nCoreGraphics(High) %f\nNYXImagesKit %f\nGPUImage %f", ciImageGPUTime, ciImageCPUTime, coreGraphicsHighTime, NYXImagesKitTime, GPUImageTime);
 }
 
 @end
