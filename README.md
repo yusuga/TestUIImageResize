@@ -1,7 +1,7 @@
 TestUIImageResize
 ======================
 
-CoreImage vs [NYXImagesKit](https://github.com/Nyx0uf/NYXImagesKit) vs Simple drawing CoreGraphics
+CoreImage vs [NYXImagesKit](https://github.com/Nyx0uf/NYXImagesKit) vs Simple drawing CoreGraphics vs [GPUImage](https://github.com/BradLarson/GPUImage)
 
 Benchmark
 ---
