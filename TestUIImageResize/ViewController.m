@@ -136,10 +136,10 @@ static NSUInteger const kNumberOfTrials = 300;
 - (UIImage*)resizeImageInCoreGraphicsWithImage:(UIImage*)image size:(CGSize)size qualityHigh:(BOOL)qualityHigh
 {
     UIGraphicsBeginImageContextWithOptions(size, NO, 0.f);
-    [image drawInRect:CGRectMake(0.f, 0.f, size.width, size.height)];
-    UIImage* resizedImage = UIGraphicsGetImageFromCurrentImageContext();
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetInterpolationQuality(context, qualityHigh ? kCGInterpolationHigh : kCGInterpolationLow);
+    [image drawInRect:CGRectMake(0.f, 0.f, size.width, size.height)];
+    UIImage* resizedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return resizedImage;
 }
@@ -310,6 +310,7 @@ static NSUInteger const kNumberOfTrials = 300;
 #if 1
     NSTimeInterval ciImageGPUTime = [self averageCiImageWithImage:img size:size useGPU:YES];
     NSTimeInterval ciImageCPUTime = [self averageCiImageWithImage:img size:size useGPU:NO];
+    NSTimeInterval coreGraphicsLowTime = [self averageCoreGraphicsWithImage:img size:size qualityHigh:NO];
     NSTimeInterval coreGraphicsHighTime = [self averageCoreGraphicsWithImage:img size:size qualityHigh:YES];
     NSTimeInterval NYXImagesKitTime = [self averageNYXImagesKit];
     NSTimeInterval GPUImageTime = [self averageGPUImage];
@@ -317,10 +318,11 @@ static NSUInteger const kNumberOfTrials = 300;
     NSTimeInterval GPUImageTime = [self averageGPUImage];
     NSTimeInterval NYXImagesKitTime = [self averageNYXImagesKit];
     NSTimeInterval coreGraphicsHighTime = [self averageCoreGraphicsWithImage:img size:size qualityHigh:YES];
+    NSTimeInterval coreGraphicsLowTime = [self averageCoreGraphicsWithImage:img size:size qualityHigh:NO];
     NSTimeInterval ciImageCPUTime = [self averageCiImageWithImage:img size:size useGPU:NO];
     NSTimeInterval ciImageGPUTime = [self averageCiImageWithImage:img size:size useGPU:YES];
 #endif
-    NSLog(@"\nCoreImage(GPU) %f\nCoreImage(CPU) %f\nCoreGraphics(High) %f\nNYXImagesKit %f\nGPUImage %f", ciImageGPUTime, ciImageCPUTime, coreGraphicsHighTime, NYXImagesKitTime, GPUImageTime);
+    NSLog(@"\nCoreImage(GPU) %f\nCoreImage(CPU) %f\nCoreGraphics(Low) %f\nCoreGraphics(High) %f\nNYXImagesKit %f\nGPUImage %f", ciImageGPUTime, ciImageCPUTime, coreGraphicsLowTime, coreGraphicsHighTime, NYXImagesKitTime, GPUImageTime);
 }
 
 @end
