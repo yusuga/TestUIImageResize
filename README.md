@@ -44,7 +44,7 @@ Resize 1276x1276px -> 450x450px
         NYXImagesKit 		0.126759
         GPUImage 			0.047676
 
-    [iPhone5s - iOS7.0]
+    [iPhone5s - iOS7.1]
         CoreImage(GPU) 		0.009390
         CoreImage(CPU) 		0.009296
         CoreGraphics(High) 	0.067254
