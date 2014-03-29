@@ -69,12 +69,16 @@ static NSUInteger const kNumberOfTrials = 300;
 {
     CIImage *ciImg = [[CIImage alloc] initWithCGImage:image.CGImage];
     
+    CGFloat imageScale = image.scale;
     CGRect imgRect = [ciImg extent];
-    CGPoint scale = CGPointMake(size.width/imgRect.size.width,
-                                size.height/imgRect.size.height);
+    CGPoint scale = CGPointMake(size.width / imgRect.size.width * imageScale,
+                                size.height / imgRect.size.height * imageScale);
     
     CIImage *filteredImg = [ciImg imageByApplyingTransform:CGAffineTransformMakeScale(scale.x,scale.y)];
-    filteredImg = [filteredImg imageByCroppingToRect:CGRectMake(0, 0, size.width, size.height)];
+    filteredImg = [filteredImg imageByCroppingToRect:CGRectMake(0,
+                                                                0,
+                                                                size.width * imageScale,
+                                                                size.height * imageScale)]  ;
     
     NSDictionary *options;
     if (useGPU) {
